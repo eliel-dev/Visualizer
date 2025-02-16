@@ -12,16 +12,12 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
-import io.github.jeffshee.visualizer.painters.fft.*
-import io.github.jeffshee.visualizer.painters.misc.SimpleIcon
-import io.github.jeffshee.visualizer.painters.modifier.Beat
-import io.github.jeffshee.visualizer.painters.modifier.Move
-import io.github.jeffshee.visualizer.painters.modifier.Rotate
-import io.github.jeffshee.visualizer.painters.modifier.Shake
-import io.github.jeffshee.visualizer.painters.waveform.Waveform
-import io.github.jeffshee.visualizer.utils.Preset
-import io.github.jeffshee.visualizer.utils.VisualizerHelper
+
 import kotlinx.android.synthetic.main.activity_main.*
+import io.github.jeffshee.visualizer.desenhadores.espectro.BarraDeLedVertical
+import io.github.jeffshee.visualizer.desenhadores.espectro.BarrasVerticais
+import io.github.jeffshee.visualizer.desenhadores.espectro.BarrasVerticaisLED
+import io.github.jeffshee.visualizer.utilitarios.VisualizerHelper
 
 class MainActivity : AppCompatActivity() {
 
@@ -71,25 +67,12 @@ class MainActivity : AppCompatActivity() {
     private fun init() {
         background = BitmapFactory.decodeResource(resources, R.drawable.background)
         bitmap = BitmapFactory.decodeResource(resources, R.drawable.chino512)
-        circleBitmap = SimpleIcon.getCircledBitmap(bitmap)
 
         helper = VisualizerHelper(0)
         val painterLists = listOf(
-            listOf(FftBar(), Move(FftWave(), yR = .5f)),
-            listOf(FftLine(), Move(FftWaveRgb(), yR = .5f)),
-            listOf(Rotate(SimpleIcon(circleBitmap).apply { radiusR = .5f }).apply { rpm = 2f }),
-            listOf(Preset.getPresetWithBitmap("cIcon", circleBitmap)),
-            listOf(Beat(Preset.getPresetWithBitmap("cIcon", circleBitmap))),
-            listOf(
-                Waveform().apply { paint.alpha = 150 },
-                Shake(Preset.getPresetWithBitmap("cWaveRgbIcon", circleBitmap)).apply {
-                    animX.duration = 1000
-                    animY.duration = 2000
-                }),
-            listOf(
-                Preset.getPresetWithBitmap("liveBg", background),
-                FftCircle().apply { paint.strokeWidth = 8f;paint.strokeCap = Paint.Cap.ROUND }
-            )
+            listOf(BarraDeLedVertical()), // Adicionar a nova visualização aqui
+            listOf(BarrasVerticais()),     // Adicionar a visualização BarrasVerticais aqui
+            listOf(BarrasVerticaisLED())
         )
         visual.setPainterList(
             helper, painterLists[current]

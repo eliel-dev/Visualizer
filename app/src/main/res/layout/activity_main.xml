@@ -19,7 +19,7 @@
         <!--app:srcCompat="@drawable/background"-->
         <!--tools:ignore="ContentDescription" />-->
 
-    <io.github.jeffshee.visualizer.views.VisualizerView
+    <io.github.jeffshee.visualizer.visualizacoes.VisualizerView
         android:id="@+id/visual"
         android:layout_width="0dp"
         android:layout_height="0dp"
