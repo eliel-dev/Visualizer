@@ -70,9 +70,9 @@ class MainActivity : AppCompatActivity() {
 
         helper = VisualizerHelper(0)
         val painterLists = listOf(
-            listOf(BarraDeLedVertical()), // Adicionar a nova visualização aqui
+            //listOf(BarraDeLedVertical()), // Adicionar a nova visualização aqui
             listOf(BarrasVerticais()),     // Adicionar a visualização BarrasVerticais aqui
-            listOf(BarrasVerticaisLED())
+            //listOf(BarrasVerticaisLED())
         )
         visual.setPainterList(
             helper, painterLists[current]
