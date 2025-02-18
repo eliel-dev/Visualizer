@@ -1,9 +1,9 @@
-package io.github.jeffshee.visualizer.desenhadores.diversos
+package io.github.jeffshee.visualizer.painters.diversos
 
 import android.graphics.Canvas
 import android.graphics.Paint
-import io.github.jeffshee.visualizer.desenhadores.Painter
-import io.github.jeffshee.visualizer.utilitarios.VisualizerHelper
+import io.github.jeffshee.visualizer.painters.Painter
+import io.github.jeffshee.visualizer.utils.VisualizerHelper
 
 class TextoSimples(
     private val paint: Paint = Paint(),

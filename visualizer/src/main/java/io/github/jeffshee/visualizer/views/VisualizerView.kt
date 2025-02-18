@@ -14,6 +14,7 @@ import io.github.jeffshee.visualizer.utilitarios.FrameManager
 import io.github.jeffshee.visualizer.utilitarios.VisualizerHelper
 import io.github.jeffshee.visualizer.desenhadores.espectro.BarrasVerticais
 import io.github.jeffshee.visualizer.desenhadores.espectro.BarrasVerticaisLED
+import io.github.jeffshee.visualizer.desenhadores.espectro.VisualizacaoPersonalizada
 
 class VisualizerView : View {
 
@@ -25,6 +26,7 @@ class VisualizerView : View {
     private val barrasVerticais = BarrasVerticais()
     private val barraDeLedVertical = BarraDeLedVertical();
     private val barrasVerticaisLED = BarrasVerticaisLED();
+    private val visualizacaoPersonalizada = VisualizacaoPersonalizada();
 
     var anim = true
     var fps = true
@@ -56,7 +58,7 @@ class VisualizerView : View {
         textoSimples = TextoSimples(Paint().apply {
             color = Color.WHITE;textSize = dp2px(resources, 12f)
         })
-        painterList = listOf(barrasVerticais, barraDeLedVertical, barrasVerticaisLED)
+        painterList = listOf(barrasVerticais, barraDeLedVertical, barrasVerticaisLED, visualizacaoPersonalizada)
     }
 
     override fun onDraw(canvas: Canvas?) {

@@ -1,10 +1,10 @@
-package io.github.jeffshee.visualizer.desenhadores.espectro
+package io.github.jeffshee.visualizer.painters.espectro
 
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Color
-import io.github.jeffshee.visualizer.desenhadores.Painter
-import io.github.jeffshee.visualizer.utilitarios.VisualizerHelper
+import io.github.jeffshee.visualizer.painters.Painter
+import io.github.jeffshee.visualizer.utils.VisualizerHelper
 
 class BarraDeLedVertical : Painter() {
     private val paint = Paint().apply {
