@@ -1,4 +1,4 @@
-package io.github.jeffshee.visualizer.visualizacoes
+package io.github.jeffshee.visualizer.views
 
 import android.content.Context
 import android.content.res.Resources
@@ -7,14 +7,15 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
-import io.github.jeffshee.visualizer.desenhadores.Painter
-import io.github.jeffshee.visualizer.desenhadores.diversos.TextoSimples
-import io.github.jeffshee.visualizer.desenhadores.espectro.BarraDeLedVertical
-import io.github.jeffshee.visualizer.utilitarios.FrameManager
-import io.github.jeffshee.visualizer.utilitarios.VisualizerHelper
-import io.github.jeffshee.visualizer.desenhadores.espectro.BarrasVerticais
-import io.github.jeffshee.visualizer.desenhadores.espectro.BarrasVerticaisLED
-import io.github.jeffshee.visualizer.desenhadores.espectro.VisualizacaoPersonalizada
+import io.github.jeffshee.visualizer.painters.Painter
+import io.github.jeffshee.visualizer.painters.misc.SimpleText
+import io.github.jeffshee.visualizer.painters.fft.BarraDeLedVertical
+import io.github.jeffshee.visualizer.utils.FrameManager
+import io.github.jeffshee.visualizer.utils.VisualizerHelper
+import io.github.jeffshee.visualizer.painters.fft.BarrasVerticais
+import io.github.jeffshee.visualizer.painters.fft.BarrasVerticaisLED
+import io.github.jeffshee.visualizer.painters.fft.FftCWaveRgb
+import io.github.jeffshee.visualizer.painters.fft.VisualizacaoPersonalizada
 
 class VisualizerView : View {
 
@@ -22,11 +23,12 @@ class VisualizerView : View {
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private lateinit var painterList: List<Painter>
     private lateinit var helper: VisualizerHelper
-    private lateinit var textoSimples: TextoSimples
+    private lateinit var simpleText: SimpleText
     private val barrasVerticais = BarrasVerticais()
     private val barraDeLedVertical = BarraDeLedVertical();
     private val barrasVerticaisLED = BarrasVerticaisLED();
     private val visualizacaoPersonalizada = VisualizacaoPersonalizada();
+    private val fftCWaveRgb = FftCWaveRgb();
 
     var anim = true
     var fps = true
@@ -55,10 +57,10 @@ class VisualizerView : View {
     }
 
     private fun onCreateView() {
-        textoSimples = TextoSimples(Paint().apply {
+        simpleText = SimpleText(Paint().apply {
             color = Color.WHITE;textSize = dp2px(resources, 12f)
         })
-        painterList = listOf(barrasVerticais, barraDeLedVertical, barrasVerticaisLED, visualizacaoPersonalizada)
+        painterList = listOf(barrasVerticais, barraDeLedVertical, barrasVerticaisLED, visualizacaoPersonalizada, fftCWaveRgb)
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -70,7 +72,7 @@ class VisualizerView : View {
                     it.calc(helper)
                     it.draw(canvas, helper) }
                // textoSimples.text = "FPS: ${frameManager.fps()}"
-                if (fps) textoSimples.draw(canvas, helper)
+                if (fps) simpleText.draw(canvas, helper)
             }
             frameManager.tick()
             if (anim) invalidate()

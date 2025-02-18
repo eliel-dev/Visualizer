@@ -1,12 +1,12 @@
-package io.github.jeffshee.visualizer.painters.diversos
+package io.github.jeffshee.visualizer.painters.misc
 
 import android.graphics.Canvas
 import android.graphics.Paint
 import io.github.jeffshee.visualizer.painters.Painter
 import io.github.jeffshee.visualizer.utils.VisualizerHelper
 
-class TextoSimples(
-    private val paint: Paint = Paint(),
+class SimpleText(
+    override var paint: Paint = Paint(),
     var text: String = "",
     //
     var x: Float = 100f,

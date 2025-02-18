@@ -1,4 +1,4 @@
-package io.github.jeffshee.visualizer.utilitarios
+package io.github.jeffshee.visualizer.utils
 
 class FrameManager {
 

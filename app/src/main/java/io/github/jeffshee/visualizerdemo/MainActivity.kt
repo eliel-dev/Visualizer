@@ -3,23 +3,23 @@ package io.github.jeffshee.visualizerdemo
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Paint
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.Toast
 import android.widget.Button
 import android.widget.TextView
 
 import kotlinx.android.synthetic.main.activity_main.*
-import io.github.jeffshee.visualizer.desenhadores.espectro.BarraDeLedVertical
-import io.github.jeffshee.visualizer.desenhadores.espectro.BarrasVerticais
-import io.github.jeffshee.visualizer.desenhadores.espectro.BarrasVerticaisLED
-import io.github.jeffshee.visualizer.utilitarios.VisualizerHelper
+import io.github.jeffshee.visualizer.painters.fft.BarraDeLedVertical
+import io.github.jeffshee.visualizer.painters.fft.BarrasVerticais
+import io.github.jeffshee.visualizer.painters.fft.BarrasVerticaisLED
+import io.github.jeffshee.visualizer.painters.fft.FftCWaveRgb
+import io.github.jeffshee.visualizer.painters.fft.VisualizacaoPersonalizada
+import io.github.jeffshee.visualizer.utils.VisualizerHelper
+import io.github.jeffshee.visualizer.painters.modifier.Beat
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,13 +29,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var circleBitmap: Bitmap
     private var current = 0
     private lateinit var visualizationTitle: TextView
-    private lateinit var visualizationDescription: TextView
     private lateinit var switchVisualizationButton: Button
 
     private val visualizations = listOf(
         "Barra de LED Vertical" to "Visualização de barras verticais com LEDs",
         "Barras Verticais" to "Visualização de barras verticais",
-        "Barras Verticais LED" to "Visualização de barras verticais com LEDs coloridos"
+        "Barras Verticais LED" to "Visualização de barras verticais com LEDs coloridos",
+        "Visualização Personalizada" to "Visualização customizada com círculo animado",
+        "Visualização Personalizada2" to "Visualização customizada com círculo animado2"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,11 +81,15 @@ class MainActivity : AppCompatActivity() {
         //bitmap = BitmapFactory.decodeResource(resources, R.drawable.chino512)
 
         helper = VisualizerHelper(0)
+        // Atualize a lista de painters para incluir todas as visualizações:
         val painterLists = listOf(
-            //listOf(BarraDeLedVertical()), // Adicionar a nova visualização aqui
-            listOf(BarrasVerticais()),     // Adicionar a visualização BarrasVerticais aqui
-            //listOf(BarrasVerticaisLED())
+            listOf(BarraDeLedVertical()),  // Nova visualização: Barra de LED Vertical
+            listOf(BarrasVerticais()),      // Visualização: Barras Verticais
+            listOf(BarrasVerticaisLED()),     // Visualização: Barras Verticais LED
+            listOf(VisualizacaoPersonalizada()),
+            listOf(Beat(FftCWaveRgb(), startHz = 60, endHz = 800, pxR = 0.5f, pyR = 0.5f, radiusR = 1f, beatAmpR = 0.7f, peak = 200f))
         )
+        
         visual.setPainterList(
             helper, painterLists[current]
         )
@@ -99,7 +104,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         visualizationTitle = findViewById(R.id.visualizationTitle)
-        visualizationDescription = findViewById(R.id.visualizationDescription)
         switchVisualizationButton = findViewById(R.id.switchVisualizationButton)
 
         updateVisualizationInfo()
@@ -116,7 +120,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateVisualizationInfo() {
         visualizationTitle.text = visualizations[current].first
-        visualizationDescription.text = visualizations[current].second
     }
 
     override fun onDestroy() {

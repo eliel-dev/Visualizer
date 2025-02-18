@@ -1,4 +1,4 @@
-package io.github.jeffshee.visualizer.painters.espectro
+package io.github.jeffshee.visualizer.painters.fft
 
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -7,7 +7,7 @@ import io.github.jeffshee.visualizer.painters.Painter
 import io.github.jeffshee.visualizer.utils.VisualizerHelper
 
 class BarraDeLedVertical : Painter() {
-    private val paint = Paint().apply {
+    override var paint = Paint().apply {
         style = Paint.Style.FILL
     }
     private val numberOfLeds = 100 // Número de LEDs

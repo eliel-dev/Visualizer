@@ -1,4 +1,4 @@
-package io.github.jeffshee.visualizer.utilitarios
+package io.github.jeffshee.visualizer.utils
 
 import android.media.audiofx.Visualizer
 import android.os.Handler

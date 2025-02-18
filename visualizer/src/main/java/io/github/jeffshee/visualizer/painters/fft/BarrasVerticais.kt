@@ -1,4 +1,4 @@
-package io.github.jeffshee.visualizer.painters.espectro
+package io.github.jeffshee.visualizer.painters.fft
 
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -9,7 +9,7 @@ import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction
 import kotlin.math.pow
 
 class BarrasVerticais : Painter() {
-    private val paint = Paint().apply {
+    override var paint = Paint().apply {
         style = Paint.Style.FILL
     }
     private lateinit var interpolatedFft: PolynomialSplineFunction
