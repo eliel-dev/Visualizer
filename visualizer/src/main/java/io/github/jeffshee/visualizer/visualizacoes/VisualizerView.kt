@@ -67,7 +67,7 @@ class VisualizerView : View {
                 painterList.forEach {
                     it.calc(helper)
                     it.draw(canvas, helper) }
-                textoSimples.text = "FPS: ${frameManager.fps()}"
+               // textoSimples.text = "FPS: ${frameManager.fps()}"
                 if (fps) textoSimples.draw(canvas, helper)
             }
             frameManager.tick()

@@ -12,6 +12,8 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
+import android.widget.Button
+import android.widget.TextView
 
 import kotlinx.android.synthetic.main.activity_main.*
 import io.github.jeffshee.visualizer.desenhadores.espectro.BarraDeLedVertical
@@ -26,6 +28,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bitmap: Bitmap
     private lateinit var circleBitmap: Bitmap
     private var current = 0
+    private lateinit var visualizationTitle: TextView
+    private lateinit var visualizationDescription: TextView
+    private lateinit var switchVisualizationButton: Button
+
+    private val visualizations = listOf(
+        "Barra de LED Vertical" to "Visualização de barras verticais com LEDs",
+        "Barras Verticais" to "Visualização de barras verticais",
+        "Barras Verticais LED" to "Visualização de barras verticais com LEDs coloridos"
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,8 +76,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        background = BitmapFactory.decodeResource(resources, R.drawable.background)
-        bitmap = BitmapFactory.decodeResource(resources, R.drawable.chino512)
+        //background = BitmapFactory.decodeResource(resources, R.drawable.background)
+        //bitmap = BitmapFactory.decodeResource(resources, R.drawable.chino512)
 
         helper = VisualizerHelper(0)
         val painterLists = listOf(
@@ -77,13 +88,35 @@ class MainActivity : AppCompatActivity() {
         visual.setPainterList(
             helper, painterLists[current]
         )
+        // Chame o método para esconder os FPS, se disponível
+        // visual.setShowFps(false)
+        
         visual.setOnLongClickListener {
             if (current < painterLists.lastIndex) current++ else current = 0
             visual.setPainterList(helper, painterLists[current])
+            updateVisualizationInfo()
             true
         }
 
-        Toast.makeText(this, "Try long-click \ud83d\ude09", Toast.LENGTH_LONG).show()
+        visualizationTitle = findViewById(R.id.visualizationTitle)
+        visualizationDescription = findViewById(R.id.visualizationDescription)
+        switchVisualizationButton = findViewById(R.id.switchVisualizationButton)
+
+        updateVisualizationInfo()
+
+        switchVisualizationButton.setOnClickListener {
+            if (current < painterLists.lastIndex) current++ else current = 0
+            visual.setPainterList(helper, painterLists[current])
+            updateVisualizationInfo()
+        }
+
+        // Remova ou comente a linha abaixo caso ela ative o FPS
+         // visual.showFps(false)
+    }
+
+    private fun updateVisualizationInfo() {
+        visualizationTitle.text = visualizations[current].first
+        visualizationDescription.text = visualizations[current].second
     }
 
     override fun onDestroy() {

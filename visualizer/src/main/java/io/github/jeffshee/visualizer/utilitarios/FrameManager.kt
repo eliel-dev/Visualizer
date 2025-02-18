@@ -19,5 +19,5 @@ class FrameManager {
         last = current
     }
 
-    fun fps() = fps
+    //fun fps() = fps
 }
