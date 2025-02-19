@@ -17,7 +17,6 @@ import io.github.jeffshee.visualizer.painters.fft.BarraDeLedVertical
 import io.github.jeffshee.visualizer.painters.fft.BarrasVerticais
 import io.github.jeffshee.visualizer.painters.fft.BarrasVerticaisLED
 import io.github.jeffshee.visualizer.painters.fft.FftCWaveRgb
-import io.github.jeffshee.visualizer.painters.fft.VisualizacaoPersonalizada
 import io.github.jeffshee.visualizer.utils.VisualizerHelper
 import io.github.jeffshee.visualizer.painters.modifier.Beat
 
@@ -86,7 +85,6 @@ class MainActivity : AppCompatActivity() {
             listOf(BarraDeLedVertical()),  // Nova visualização: Barra de LED Vertical
             listOf(BarrasVerticais()),      // Visualização: Barras Verticais
             listOf(BarrasVerticaisLED()),     // Visualização: Barras Verticais LED
-            listOf(VisualizacaoPersonalizada()),
             listOf(Beat(FftCWaveRgb(), startHz = 60, endHz = 800, pxR = 0.5f, pyR = 0.5f, radiusR = 1f, beatAmpR = 0.7f, peak = 200f))
         )
         

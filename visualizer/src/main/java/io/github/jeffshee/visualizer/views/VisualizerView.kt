@@ -15,7 +15,6 @@ import io.github.jeffshee.visualizer.utils.VisualizerHelper
 import io.github.jeffshee.visualizer.painters.fft.BarrasVerticais
 import io.github.jeffshee.visualizer.painters.fft.BarrasVerticaisLED
 import io.github.jeffshee.visualizer.painters.fft.FftCWaveRgb
-import io.github.jeffshee.visualizer.painters.fft.VisualizacaoPersonalizada
 
 class VisualizerView : View {
 
@@ -27,7 +26,6 @@ class VisualizerView : View {
     private val barrasVerticais = BarrasVerticais()
     private val barraDeLedVertical = BarraDeLedVertical();
     private val barrasVerticaisLED = BarrasVerticaisLED();
-    private val visualizacaoPersonalizada = VisualizacaoPersonalizada();
     private val fftCWaveRgb = FftCWaveRgb();
 
     var anim = true
@@ -60,7 +58,7 @@ class VisualizerView : View {
         simpleText = SimpleText(Paint().apply {
             color = Color.WHITE;textSize = dp2px(resources, 12f)
         })
-        painterList = listOf(barrasVerticais, barraDeLedVertical, barrasVerticaisLED, visualizacaoPersonalizada, fftCWaveRgb)
+        painterList = listOf(barrasVerticais, barraDeLedVertical, barrasVerticaisLED, fftCWaveRgb)
     }
 
     override fun onDraw(canvas: Canvas?) {

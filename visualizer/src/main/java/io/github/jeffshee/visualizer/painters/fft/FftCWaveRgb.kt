@@ -58,7 +58,7 @@ class FftCWaveRgb(
             wave.paint.color = color[2]
             wave.draw(canvas, helper)
         }
-        // Desenha o círculo central preto para cobrir totalmente a área branca ("porta")
+        // Desenha o círculo central preto para cobrir totalmente a área branca
         val centerX = canvas.width / 2f
         val centerY = canvas.height / 2f
         val innerRadius = Math.min(centerX, centerY) / 2.6f // Aumentado para cobrir a área branca
