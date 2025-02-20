@@ -12,7 +12,7 @@ import io.github.jeffshee.visualizer.painters.misc.SimpleText
 import io.github.jeffshee.visualizer.painters.fft.BarraDeLedVertical
 import io.github.jeffshee.visualizer.utils.FrameManager
 import io.github.jeffshee.visualizer.utils.VisualizerHelper
-import io.github.jeffshee.visualizer.painters.fft.BarrasVerticais
+import io.github.jeffshee.visualizer.painters.fft.BarresVerticals
 import io.github.jeffshee.visualizer.painters.fft.BarrasVerticaisLED
 import io.github.jeffshee.visualizer.painters.fft.FftCWaveRgb
 
@@ -23,10 +23,10 @@ class VisualizerView : View {
     private lateinit var painterList: List<Painter>
     private lateinit var helper: VisualizerHelper
     private lateinit var simpleText: SimpleText
-    private val barrasVerticais = BarrasVerticais()
-    private val barraDeLedVertical = BarraDeLedVertical();
-    private val barrasVerticaisLED = BarrasVerticaisLED();
-    private val fftCWaveRgb = FftCWaveRgb();
+    private val barresVerticals = BarresVerticals()
+    private val barraDeLedVertical = BarraDeLedVertical()
+    private val barrasVerticaisLED = BarrasVerticaisLED()
+    private val fftCWaveRgb = FftCWaveRgb()
 
     var anim = true
     var fps = true
@@ -56,20 +56,21 @@ class VisualizerView : View {
 
     private fun onCreateView() {
         simpleText = SimpleText(Paint().apply {
-            color = Color.WHITE;textSize = dp2px(resources, 12f)
+            color = Color.WHITE
+            textSize = dp2px(resources, 12f)
         })
-        painterList = listOf(barrasVerticais, barraDeLedVertical, barrasVerticaisLED, fftCWaveRgb)
+        painterList = listOf(barresVerticals, barraDeLedVertical, barrasVerticaisLED, fftCWaveRgb)
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        if(this::painterList.isInitialized && this::helper.isInitialized){
+        if (this::painterList.isInitialized && this::helper.isInitialized) {
             setLayerType(LAYER_TYPE_HARDWARE, paint)
             canvas?.apply {
                 painterList.forEach {
                     it.calc(helper)
-                    it.draw(canvas, helper) }
-               // textoSimples.text = "FPS: ${frameManager.fps()}"
+                    it.draw(canvas, helper)
+                }
                 if (fps) simpleText.draw(canvas, helper)
             }
             frameManager.tick()
