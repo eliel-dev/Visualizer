@@ -12,16 +12,17 @@ class BarrasVerticais : Painter() {
     override var paint = Paint().apply {
         style = Paint.Style.FILL
     }
-    private lateinit var interpolatedFft: PolynomialSplineFunction
-    private val amplificationFactor = 1.4f // Ajuste conforme necessário para conter as barras
-    private val smoothingFactor = 0.2f // Fator de suavização exponencial
 
+    private lateinit var interpolatedFft: PolynomialSplineFunction
+    private val amplificationFactor = 1.4f  // Fator para enfatizar a altura das barras
+    private val smoothingFactor = 0.2f      // Fator de suavização exponencial
     private var smoothedFft: FloatArray? = null
 
     override fun calc(helper: VisualizerHelper) {
-        val fft = helper.getFftMagnitudeRange(0, 2000) // Usar a mesma faixa de frequências do Waveform
+        val fft = helper.getFftMagnitudeRange(0, 2000)
+        if (fft.isEmpty()) return
 
-        // Aplicar uma suavização exponencial aos dados da FFT
+        // Suavização exponencial dos dados da FFT
         smoothedFft = if (smoothedFft == null) {
             fft.map { it.toFloat() }.toFloatArray()
         } else {
@@ -30,27 +31,32 @@ class BarrasVerticais : Painter() {
             }.toFloatArray()
         }
 
+        // Aplica modelo com gravidade para suavizar valores dinamicamente
         val gravityModels = Array(smoothedFft!!.size) { GravityModel() }
-        smoothedFft!!.forEachIndexed { index, value -> gravityModels[index].update(value) }
-        interpolatedFft = interpolateFft(gravityModels, 25, "sp") // Usar interpolação com spline para suavizar os dados
+        smoothedFft!!.forEachIndexed { index, value ->
+            gravityModels[index].update(value)
+        }
+
+        // Interpolação via spline para reduzir o número de pontos (25 pontos)
+        interpolatedFft = interpolateFft(gravityModels, 25, "sp")
     }
 
     override fun draw(canvas: Canvas, helper: VisualizerHelper) {
-        val numberOfBars = 24 // Número de barras
-        val barMargin = 50f // Aumentar a margem entre as barras para ampliar a visualização
-        val barWidth = 10f // Aumentar a espessura das barras
+        val numberOfBars = 24
+        val barMargin = 50f
+        val barWidth = 10f
 
-        // Calcula o offset para centralizar as barras horizontalmente
+        // Calcula o offset horizontal para centralizar as barras
         val totalBarWidth = numberOfBars * barWidth + (numberOfBars - 1) * barMargin
-        val startX = (canvas.width - totalBarWidth) / 2f // Ajuste para centralizar as barras horizontalmente
+        val startX = (canvas.width - totalBarWidth) / 2f
         val centerY = canvas.height / 2f
 
         for (i in 0 until numberOfBars) {
             val rawHeight = interpolatedFft.value(i.toDouble()).toFloat()
             val transformedHeight = rawHeight.pow(amplificationFactor)
-            val barHeight = (transformedHeight / 3) // Ajuste da amplificação e racionalização para contenção
+            val barHeight = (transformedHeight / 3) // Racionaliza a altura das barras
 
-            // Cálculo da cor no espectro do arco-íris baseada no índice da barra com cores vibrantes
+            // Define a cor vibrante baseada no índice (rainbow)
             paint.color = getVivrantRainbowColor(i, numberOfBars)
 
             val left = startX + i * (barWidth + barMargin)
@@ -61,14 +67,10 @@ class BarrasVerticais : Painter() {
         }
     }
 
-    // Função auxiliar para calcular a cor RGB vibrante no espectro do arco-íris com base no índice
+    // Função auxiliar para gerar cores vibrantes no espectro do arco-íris
     private fun getVivrantRainbowColor(index: Int, totalBars: Int): Int {
-        val hue = 360f * index / totalBars // Calcula a matiz (de 0 a 360 graus)
-        val hsvColor = floatArrayOf(
-            hue, // Matiz (Hue)
-            1f, // Saturação máxima (Saturation)
-            1f  // Valor máximo para luminância vibrante (Value)
-        )
+        val hue = 360f * index / totalBars
+        val hsvColor = floatArrayOf(hue, 1f, 1f)
         return Color.HSVToColor(hsvColor)
     }
 }
