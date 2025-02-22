@@ -1,44 +1,40 @@
-package io.github.jeffshee.visualizer.painters.modifier
+package io.github.jeffshee.visualizer.painters.modificadores
 
-import android.animation.ValueAnimator
 import android.graphics.Canvas
 import android.graphics.Paint
 import io.github.jeffshee.visualizer.painters.Painter
 import io.github.jeffshee.visualizer.utils.VisualizerHelper
 
-class Shake(
+class Rotate(
     vararg val painters: Painter,
     //
-    var animX: ValueAnimator = ValueAnimator.ofFloat(0f, .01f, 0f, -.01f, 0f).apply {
-        duration = 16000;repeatCount = ValueAnimator.INFINITE
-    },
-    var animY: ValueAnimator = ValueAnimator.ofFloat(0f, .01f, 0f, -.01f, 0f).apply {
-        duration = 8000;repeatCount = ValueAnimator.INFINITE
-    }
+    var pxR: Float = .5f,
+    var pyR: Float = .5f,
+    //
+    var rpm: Float = 1f,
+    var offset: Float = 0f
 ) : Painter() {
 
     override var paint = Paint()
 
-    init {
-        animX.start()
-        animY.start()
-    }
+    private var rot: Float = 0f
 
     override fun calc(helper: VisualizerHelper) {
         painters.forEach { painter ->
             painter.calc(helper)
         }
-
     }
 
     override fun draw(canvas: Canvas, helper: VisualizerHelper) {
-        canvas.save()
-        drawHelper(canvas, "a", animX.animatedValue as Float, animY.animatedValue as Float) {
+        rotateHelper(canvas, rot + offset, pxR, pyR) {
             painters.forEach { painter ->
                 painter.paint.apply { colorFilter = paint.colorFilter;xfermode = paint.xfermode }
                 painter.draw(canvas, helper)
             }
         }
-        canvas.restore()
+        if (rpm != 0f) {
+            rot += rpm / 10f
+            rot %= 360f
+        }
     }
 }

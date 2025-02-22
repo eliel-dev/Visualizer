@@ -1,4 +1,4 @@
-package io.github.jeffshee.visualizer.painters.modifier
+package io.github.jeffshee.visualizer.painters.modificadores
 
 import android.graphics.*
 import android.os.Build

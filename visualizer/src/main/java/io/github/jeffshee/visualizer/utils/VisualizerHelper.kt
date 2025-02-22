@@ -28,11 +28,6 @@ class VisualizerHelper(sessionId: Int) {
         return fftBuff
     }
 
-//    fun getWave(): ByteArray {
-//        if (visualizer.enabled) visualizer.getWaveForm(waveBuff)
-//        return waveBuff
-//    }
-
     fun getFftMagnitude(): DoubleArray {
         getFft()
         for (k in 0 until fftMF.size) {
@@ -51,9 +46,6 @@ class VisualizerHelper(sessionId: Int) {
         return getFftMagnitude().copyOfRange(sIndex, eIndex)
     }
 
-    /**
-     * Equation from documentation, kth frequency = k*Fs/(n/2)
-     */
     fun hzToFftIndex(Hz: Int): Int {
         return Math.min(Math.max(Hz * 1024 / (44100 * 2), 0), 255)
     }
@@ -65,7 +57,6 @@ class VisualizerHelper(sessionId: Int) {
         handler = Handler()
         runnable = object : Runnable {
             override fun run() {
-//                Log.d("Waveform", getWave().contentToString())
                 Log.d("Fft", getFftMagnitude().contentToString())
                 handler.postDelayed(this, 1000)
             }

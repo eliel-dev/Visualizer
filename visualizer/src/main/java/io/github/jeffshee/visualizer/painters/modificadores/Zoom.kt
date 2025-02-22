@@ -1,30 +1,29 @@
-package io.github.jeffshee.visualizer.painters.modifier
+package io.github.jeffshee.visualizer.painters.modificadores
 
+import android.animation.ValueAnimator
 import android.graphics.Canvas
 import android.graphics.Paint
 import io.github.jeffshee.visualizer.painters.Painter
 import io.github.jeffshee.visualizer.utils.VisualizerHelper
 
-class Beat(
+class Zoom(
     vararg val painters: Painter,
-    //
-    var startHz: Int = 60,
-    var endHz: Int = 800,
     //
     var pxR: Float = .5f,
     var pyR: Float = .5f,
     //
-    var radiusR: Float = 1f,
-    var beatAmpR: Float = 1f,
-    var peak: Float = 200f
+    var anim: ValueAnimator = ValueAnimator.ofFloat(.9f, 1.1f).apply {
+        duration = 8000;repeatCount = ValueAnimator.INFINITE;repeatMode = ValueAnimator.REVERSE
+    }
 ) : Painter() {
 
     override var paint = Paint()
 
-    private val energy = GravityModel(0f)
+    init {
+        anim.start()
+    }
 
     override fun calc(helper: VisualizerHelper) {
-        energy.update(helper.getFftMagnitudeRange(startHz, endHz).average().toFloat())
         painters.forEach { painter ->
             painter.calc(helper)
         }
@@ -32,10 +31,9 @@ class Beat(
 
     override fun draw(canvas: Canvas, helper: VisualizerHelper) {
         canvas.save()
-        val width = canvas.width * (radiusR + energy.height / peak * beatAmpR)
         canvas.scale(
-            width / canvas.width, width / canvas.width,
-            canvas.width * pxR, canvas.height * pyR
+            anim.animatedValue as Float, anim.animatedValue as Float,
+            pxR * canvas.width, pyR * canvas.height
         )
         painters.forEach { painter ->
             painter.paint.apply { colorFilter = paint.colorFilter;xfermode = paint.xfermode }

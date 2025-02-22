@@ -9,12 +9,11 @@ import android.util.AttributeSet
 import android.view.View
 import io.github.jeffshee.visualizer.painters.Painter
 import io.github.jeffshee.visualizer.painters.misc.SimpleText
-import io.github.jeffshee.visualizer.painters.fft.BarraDeLedVertical
+import io.github.jeffshee.visualizer.painters.fft.BarraV
 import io.github.jeffshee.visualizer.utils.FrameManager
 import io.github.jeffshee.visualizer.utils.VisualizerHelper
-import io.github.jeffshee.visualizer.painters.fft.BarresVerticals
-import io.github.jeffshee.visualizer.painters.fft.BarrasVerticaisLED
-import io.github.jeffshee.visualizer.painters.fft.FftCWaveRgb
+import io.github.jeffshee.visualizer.painters.fft.BarrasHRGB
+import io.github.jeffshee.visualizer.painters.fft.BarraHSimples
 
 class VisualizerView : View {
 
@@ -23,10 +22,9 @@ class VisualizerView : View {
     private lateinit var painterList: List<Painter>
     private lateinit var helper: VisualizerHelper
     private lateinit var simpleText: SimpleText
-    private val barresVerticals = BarresVerticals()
-    private val barraDeLedVertical = BarraDeLedVertical()
-    private val barrasVerticaisLED = BarrasVerticaisLED()
-    private val fftCWaveRgb = FftCWaveRgb()
+    private val barrasHRGB = BarrasHRGB()
+    private val barraV = BarraV()
+    private val barraHSimples = BarraHSimples()
 
     var anim = true
     var fps = true
@@ -59,7 +57,7 @@ class VisualizerView : View {
             color = Color.WHITE
             textSize = dp2px(resources, 12f)
         })
-        painterList = listOf(barresVerticals, barraDeLedVertical, barrasVerticaisLED, fftCWaveRgb)
+        painterList = listOf(barrasHRGB, barraV, barraHSimples)
     }
 
     override fun onDraw(canvas: Canvas?) {

@@ -2,6 +2,7 @@ package io.github.jeffshee.visualizer.painters.fft
 
 import android.graphics.*
 import io.github.jeffshee.visualizer.painters.Painter
+import io.github.jeffshee.visualizer.painters.modificadores.CirculoWave
 import io.github.jeffshee.visualizer.utils.VisualizerHelper
 import kotlin.math.sin
 
@@ -13,7 +14,7 @@ import kotlin.math.sin
  * - Vários layers rotacionados geram profundidade e um efeito mais vivo.
  * - A suavização da FFT e o uso de variação temporal resultam em transições mais naturais.
  */
-class EmotiveVisualizer(
+class CirculoOndas(
     flags: Int = Paint.ANTI_ALIAS_FLAG,
     var baseColors: List<Int> = listOf(Color.RED, Color.GREEN, Color.BLUE),
     //
@@ -39,7 +40,7 @@ class EmotiveVisualizer(
     }
 
     private var smoothedFft: FloatArray? = null
-    private val wave = FftCWave(Paint(flags).apply {
+    private val wave = CirculoWave(Paint(flags).apply {
         style = Paint.Style.FILL
         xfermode = PorterDuffXfermode(PorterDuff.Mode.ADD)
     }, startHz, endHz, num, interpolator, side, mirror, power, radiusR, ampR)

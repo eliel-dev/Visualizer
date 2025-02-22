@@ -11,35 +11,22 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import io.github.jeffshee.visualizer.painters.fft.EmotiveVisualizer
-
 import kotlinx.android.synthetic.main.activity_main.*
-import io.github.jeffshee.visualizer.painters.fft.BarraDeLedVertical
-import io.github.jeffshee.visualizer.painters.fft.BarresVerticals
-import io.github.jeffshee.visualizer.painters.fft.BarrasVerticaisLED
-import io.github.jeffshee.visualizer.painters.fft.FftCWaveRgb
+import io.github.jeffshee.visualizer.painters.fft.BarraHSimples
+import io.github.jeffshee.visualizer.painters.fft.BarraV
+import io.github.jeffshee.visualizer.painters.fft.BarrasHRGB
+import io.github.jeffshee.visualizer.painters.fft.CirculoOndas
+import io.github.jeffshee.visualizer.painters.modificadores.Beat
 import io.github.jeffshee.visualizer.utils.VisualizerHelper
-import io.github.jeffshee.visualizer.painters.modifier.Beat
+
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var helper: VisualizerHelper
-    private lateinit var background: Bitmap
-    private lateinit var bitmap: Bitmap
-    private lateinit var circleBitmap: Bitmap
     private var current = 0
     private lateinit var visualizationTitle: TextView
     private lateinit var switchVisualizationButton: Button
 
-    private val visualizations = listOf(
-        "Barra de LED Vertical" to "Visualização de barras verticais com LEDs",
-        "Barras Verticais" to "Visualização de barras verticais",
-        "Barras Verticais LED" to "Visualização de barras verticais com LEDs coloridos",
-        "Visualização Personalizada" to "Visualização customizada com círculo animado",
-        "Visualização Personalizada2" to "Visualização customizada com círculo animado2",
-        "Visualização Personalizada3" to "Visualização customizada com círculo animado3",
-        "Launchpad Visualizer" to "Visualização inspirada em Launchpad"
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,19 +72,19 @@ class MainActivity : AppCompatActivity() {
         helper = VisualizerHelper(0)
         // Atualize a lista de painters para incluir todas as visualizações:
         val painterLists = listOf(
-            listOf(BarraDeLedVertical()),  // Nova visualização: Barra de LED Vertical
-            listOf(BarresVerticals()),      // Visualização: Barras Verticais
-            listOf(BarrasVerticaisLED()),     // Visualização: Barras Verticais LED
-            listOf(Beat(FftCWaveRgb(), startHz = 60, endHz = 800, pxR = 0.5f, pyR = 0.5f, radiusR = 1f, beatAmpR = 0.7f, peak = 200f)),
-            listOf(EmotiveVisualizer())            // Novo visualizador emocional)
-        )
-        
+            listOf(BarraV()),
+            listOf(BarrasHRGB()),
+            listOf(BarraHSimples()),
+            listOf(CirculoOndas()),
+            listOf(Beat(CirculoOndas(),startHz = 150, endHz = 1500, pxR = 0.5f, pyR = 0.5f, radiusR = 1f, beatAmpR = 0.7f, peak = 250f)),
+            )
+
         visual.setPainterList(
             helper, painterLists[current]
         )
         // Chame o método para esconder os FPS, se disponível
         // visual.setShowFps(false)
-        
+
         visual.setOnLongClickListener {
             if (current < painterLists.lastIndex) current++ else current = 0
             visual.setPainterList(helper, painterLists[current])
@@ -117,11 +104,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Remova ou comente a linha abaixo caso ela ative o FPS
-         // visual.showFps(false)
+        // visual.showFps(false)
     }
 
     private fun updateVisualizationInfo() {
-        visualizationTitle.text = visualizations[current].first
+        visualizationTitle.text = "Visualização ${current + 1}"
     }
 
     override fun onDestroy() {

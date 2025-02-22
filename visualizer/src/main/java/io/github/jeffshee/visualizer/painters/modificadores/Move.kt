@@ -1,27 +1,19 @@
-package io.github.jeffshee.visualizer.painters.modifier
+package io.github.jeffshee.visualizer.painters.modificadores
 
-import android.animation.ValueAnimator
 import android.graphics.Canvas
 import android.graphics.Paint
 import io.github.jeffshee.visualizer.painters.Painter
 import io.github.jeffshee.visualizer.utils.VisualizerHelper
 
-class Zoom(
+class Move(
+    //
     vararg val painters: Painter,
     //
-    var pxR: Float = .5f,
-    var pyR: Float = .5f,
-    //
-    var anim: ValueAnimator = ValueAnimator.ofFloat(.9f, 1.1f).apply {
-        duration = 8000;repeatCount = ValueAnimator.INFINITE;repeatMode = ValueAnimator.REVERSE
-    }
+    var xR: Float = 0f,
+    var yR: Float = 0f
 ) : Painter() {
 
     override var paint = Paint()
-
-    init {
-        anim.start()
-    }
 
     override fun calc(helper: VisualizerHelper) {
         painters.forEach { painter ->
@@ -31,10 +23,7 @@ class Zoom(
 
     override fun draw(canvas: Canvas, helper: VisualizerHelper) {
         canvas.save()
-        canvas.scale(
-            anim.animatedValue as Float, anim.animatedValue as Float,
-            pxR * canvas.width, pyR * canvas.height
-        )
+        canvas.translate(canvas.width * xR, canvas.height * yR)
         painters.forEach { painter ->
             painter.paint.apply { colorFilter = paint.colorFilter;xfermode = paint.xfermode }
             painter.draw(canvas, helper)

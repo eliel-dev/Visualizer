@@ -6,7 +6,7 @@ import android.graphics.Color
 import io.github.jeffshee.visualizer.painters.Painter
 import io.github.jeffshee.visualizer.utils.VisualizerHelper
 
-class BarraDeLedVertical : Painter() {
+class BarraV : Painter() {
     override var paint = Paint().apply {
         style = Paint.Style.FILL
     }

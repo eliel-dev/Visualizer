@@ -1,4 +1,4 @@
-package io.github.jeffshee.visualizer.painters.fft
+package io.github.jeffshee.visualizer.painters.modificadores
 
 import android.graphics.Canvas
 import android.graphics.Color
@@ -10,7 +10,7 @@ import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction
 import kotlin.math.PI
 import kotlin.math.min
 
-class FftCWave(
+class CirculoWave(
     override var paint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.WHITE
     },
