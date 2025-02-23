@@ -1,3 +1,4 @@
+
 package io.github.jeffshee.visualizer.painters.fft
 
 import android.graphics.Canvas
