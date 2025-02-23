@@ -17,17 +17,13 @@ import kotlin.math.sin
 class CirculoOndas(
     flags: Int = Paint.ANTI_ALIAS_FLAG,
     var baseColors: List<Int> = listOf(Color.RED, Color.GREEN, Color.BLUE),
-    //
     startHz: Int = 0,
     endHz: Int = 2000,
-    //
     num: Int = 128,
     interpolator: String = "sp",
-    //
     side: String = "a",
     mirror: Boolean = false,
     power: Boolean = true,
-    //
     radiusR: Float = .4f,
     ampR: Float = .6f,
     var baseRot: Float = 10f
@@ -45,16 +41,14 @@ class CirculoOndas(
         xfermode = PorterDuffXfermode(PorterDuff.Mode.ADD)
     }, startHz, endHz, num, interpolator, side, mirror, power, radiusR, ampR)
 
-    // Variáveis para controle dinâmico
     private var avgAmplitude = 0f
-    private var timeCounter = 0f  // Incremento para variação temporal
+    private var timeCounter = 0f
 
     override fun calc(helper: VisualizerHelper) {
         wave.calc(helper)
         val fft = helper.getFftMagnitudeRange(0, 2000)
         if (fft.isEmpty()) return
 
-        // Suavização da FFT para transições mais fluidas (fator de 0.25)
         smoothedFft = if (smoothedFft == null) {
             fft.map { it.toFloat() }.toFloatArray()
         } else {
@@ -63,36 +57,28 @@ class CirculoOndas(
             }.toFloatArray()
         }
 
-        // Calcula a amplitude média para modular rotação e cores
         avgAmplitude = smoothedFft?.average()?.toFloat() ?: 0f
-
-        // Atualiza o contador temporal para criar uma oscilação suave
         timeCounter += 0.05f
     }
 
     override fun draw(canvas: Canvas, helper: VisualizerHelper) {
-        // Cria um offset dinâmico para a rotação: quanto maior a amplitude, maior a oscilação
         val dynamicRotOffset = (avgAmplitude / 100f) * 20f * sin(timeCounter)
 
-        // Primeira camada: rotação base mais oscilatória
         wave.paint.color = baseColors[0]
         rotateHelper(canvas, baseRot + dynamicRotOffset, .5f, .5f) {
             wave.draw(canvas, helper)
         }
 
-        // Segunda camada: rotação um pouco maior
         rotateHelper(canvas, (baseRot * 2) + dynamicRotOffset, .5f, .5f) {
             wave.paint.color = baseColors[1]
             wave.draw(canvas, helper)
         }
 
-        // Terceira camada: rotação ainda maior para profundidade
         rotateHelper(canvas, (baseRot * 3) + dynamicRotOffset, .5f, .5f) {
             wave.paint.color = baseColors[2]
             wave.draw(canvas, helper)
         }
 
-        // Círculo central preto para cobrir áreas indesejadas e focar a visualização
         val centerX = canvas.width / 2f
         val centerY = canvas.height / 2f
         val innerRadius = minOf(centerX, centerY) / 2.6f
@@ -104,7 +90,6 @@ class CirculoOndas(
         canvas.drawCircle(centerX, centerY, innerRadius, blackPaint)
     }
 
-    // Exemplo de função para gerar cor dinâmica baseada em índice e amplitude
     private fun getDynamicColor(index: Int, amplitude: Float): Int {
         val totalPoints = smoothedFft?.size ?: 1
         val hue = ((index.toFloat() / totalPoints) * 360f) % 360

@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 import io.github.jeffshee.visualizer.painters.fft.BarraHSimples
+import io.github.jeffshee.visualizer.painters.fft.BarraSimplesMatriz
 import io.github.jeffshee.visualizer.painters.fft.BarraV
 import io.github.jeffshee.visualizer.painters.fft.BarrasHRGB
 import io.github.jeffshee.visualizer.painters.fft.CirculoOndas
@@ -74,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         val painterLists = listOf(
             listOf(BarraV()),
             listOf(BarrasHRGB()),
-            listOf(BarraHSimples()),
+            listOf(BarraSimplesMatriz()),
             listOf(CirculoOndas()),
             listOf(Beat(CirculoOndas(),startHz = 150, endHz = 1500, pxR = 0.5f, pyR = 0.5f, radiusR = 1f, beatAmpR = 0.7f, peak = 250f)),
             )
