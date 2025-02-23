@@ -5,7 +5,6 @@ import android.graphics.Paint
 import android.graphics.Color
 import io.github.jeffshee.visualizer.painters.Painter
 import io.github.jeffshee.visualizer.utils.VisualizerHelper
-import io.github.jeffshee.visualizer.utils.MatrixConfig
 import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction
 import kotlin.math.pow
 
@@ -18,9 +17,6 @@ class BarrasHRGB : Painter() {
     private val amplificationFactor = 1.4f  // Fator para enfatizar a altura das barras
     private val smoothingFactor = 0.2f      // Fator de suavização exponencial
     private var smoothedFft: FloatArray? = null
-
-    private val ledColumns: Int get() = MatrixConfig.ledMatrixColumns
-    private val ledRows: Int get() = MatrixConfig.ledMatrixRows
 
     override fun calc(helper: VisualizerHelper) {
         val fft = helper.getFftMagnitudeRange(0, 2000)

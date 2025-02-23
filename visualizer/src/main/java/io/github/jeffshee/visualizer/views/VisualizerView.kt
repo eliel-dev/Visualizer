@@ -10,10 +10,10 @@ import android.view.View
 import io.github.jeffshee.visualizer.painters.Painter
 import io.github.jeffshee.visualizer.painters.misc.SimpleText
 import io.github.jeffshee.visualizer.painters.fft.BarraV
-import io.github.jeffshee.visualizer.utils.FrameManager
-import io.github.jeffshee.visualizer.utils.VisualizerHelper
 import io.github.jeffshee.visualizer.painters.fft.BarrasHRGB
 import io.github.jeffshee.visualizer.painters.fft.BarraHSimples
+import io.github.jeffshee.visualizer.utils.FrameManager
+import io.github.jeffshee.visualizer.utils.VisualizerHelper
 
 class VisualizerView : View {
 
@@ -57,6 +57,7 @@ class VisualizerView : View {
             color = Color.WHITE
             textSize = dp2px(resources, 12f)
         })
+        // Adicionando todos os painters
         painterList = listOf(barrasHRGB, barraV, barraHSimples)
     }
 
