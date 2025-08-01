@@ -1,17 +1,17 @@
-package io.github.jeffshee.visualizer.painters.modificadores
+package de.lemke.audiovisualizer.pintores.modificador
 
 import android.graphics.Canvas
 import android.graphics.Paint
-import io.github.jeffshee.visualizer.painters.Painter
-import io.github.jeffshee.visualizer.utils.VisualizerHelper
+import de.lemke.audiovisualizer.pintores.Pintor
+import de.lemke.audiovisualizer.utils.VisualizerHelper
 
-class Move(
-    //
-    vararg val painters: Painter,
-    //
-    var xR: Float = 0f,
-    var yR: Float = 0f
-) : Painter() {
+class Scale(
+    vararg val painters: Pintor,
+    var scaleX: Float = 1f,
+    var scaleY: Float = 1f,
+    var pxR: Float = .5f,
+    var pyR: Float = .5f,
+) : Pintor() {
 
     override var paint = Paint()
 
@@ -23,7 +23,7 @@ class Move(
 
     override fun draw(canvas: Canvas, helper: VisualizerHelper) {
         canvas.save()
-        canvas.translate(canvas.width * xR, canvas.height * yR)
+        canvas.scale(scaleX, scaleY, pxR * canvas.width, pyR * canvas.height)
         painters.forEach { painter ->
             painter.paint.apply { colorFilter = paint.colorFilter;xfermode = paint.xfermode }
             painter.draw(canvas, helper)

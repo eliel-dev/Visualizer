@@ -1,19 +1,17 @@
-package io.github.jeffshee.visualizer.painters.modificadores
+package de.lemke.audiovisualizer.pintores.modificador
 
 import android.graphics.Canvas
 import android.graphics.Paint
-import io.github.jeffshee.visualizer.painters.Painter
-import io.github.jeffshee.visualizer.utils.VisualizerHelper
+import de.lemke.audiovisualizer.pintores.Pintor
+import de.lemke.audiovisualizer.utils.VisualizerHelper
 
 class Rotate(
-    vararg val painters: Painter,
-    //
+    vararg val painters: Pintor,
     var pxR: Float = .5f,
     var pyR: Float = .5f,
-    //
     var rpm: Float = 1f,
-    var offset: Float = 0f
-) : Painter() {
+    var offset: Float = 0f,
+) : Pintor() {
 
     override var paint = Paint()
 

@@ -1,20 +1,18 @@
-package io.github.jeffshee.visualizer.painters.modificadores
+package de.lemke.audiovisualizer.pintores.modificador
 
 import android.graphics.*
-import android.os.Build
-import io.github.jeffshee.visualizer.painters.Painter
-import io.github.jeffshee.visualizer.utils.VisualizerHelper
+import de.lemke.audiovisualizer.pintores.Pintor
+import de.lemke.audiovisualizer.pintores.Pintor.Companion.Direcao.Cima
+import de.lemke.audiovisualizer.utils.VisualizerHelper
 import kotlin.random.Random
 
 class Glitch(
-    vararg val painters: Painter,
-    //
+    vararg val painters: Pintor,
     var startHz: Int = 60,
     var endHz: Int = 300,
-    //
     var peak: Float = 50f,
-    var duration: Int = 200
-) : Painter() {
+    var duration: Int = 200,
+) : Pintor() {
 
     override var paint = Paint()
 
@@ -39,13 +37,8 @@ class Glitch(
             val noise = Random.nextFloat() * .1f - .05f
 
             canvas.save()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                canvas.clipOutRect(0f, y, width, y + h)
-            } else {
-                @Suppress("DEPRECATION")
-                canvas.clipRect(0f, y, width, y + h, Region.Op.DIFFERENCE)
-            }
-            drawHelper(canvas, "a", 0f, 0f) {
+            canvas.clipOutRect(0f, y, width, y + h)
+            drawHelper(canvas, Cima, 0f, 0f) {
                 painters.forEach { painter ->
                     painter.paint.apply {
                         colorFilter = null;xfermode = null
@@ -57,29 +50,29 @@ class Glitch(
 
             canvas.save()
             canvas.clipRect(0f, y, width, y + h)
-            drawHelper(canvas, "a", displacement - noise, 0f) {
+            drawHelper(canvas, Cima, displacement - noise, 0f) {
                 painters.forEach { painter ->
                     painter.paint.apply {
                         colorFilter = LightingColorFilter(Color.RED, Color.BLACK)
-                        ;xfermode = PorterDuffXfermode(PorterDuff.Mode.ADD)
+                        xfermode = PorterDuffXfermode(PorterDuff.Mode.ADD)
                     }
                     painter.draw(canvas, helper)
                 }
             }
-            drawHelper(canvas, "a", displacement, 0f) {
+            drawHelper(canvas, Cima, displacement, 0f) {
                 painters.forEach { painter ->
                     painter.paint.apply {
                         colorFilter = LightingColorFilter(Color.GREEN, Color.BLACK)
-                        ;xfermode = PorterDuffXfermode(PorterDuff.Mode.ADD)
+                        xfermode = PorterDuffXfermode(PorterDuff.Mode.ADD)
                     }
                     painter.draw(canvas, helper)
                 }
             }
-            drawHelper(canvas, "a", displacement + noise, 0f) {
+            drawHelper(canvas, Cima, displacement + noise, 0f) {
                 painters.forEach { painter ->
                     painter.paint.apply {
                         colorFilter = LightingColorFilter(Color.BLUE, Color.BLACK)
-                        ;xfermode = PorterDuffXfermode(PorterDuff.Mode.ADD)
+                        xfermode = PorterDuffXfermode(PorterDuff.Mode.ADD)
                     }
                     painter.draw(canvas, helper)
                 }

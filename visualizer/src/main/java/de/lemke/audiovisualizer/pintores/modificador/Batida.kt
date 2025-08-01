@@ -1,23 +1,20 @@
-package io.github.jeffshee.visualizer.painters.modificadores
+package de.lemke.audiovisualizer.pintores.modificador
 
 import android.graphics.Canvas
 import android.graphics.Paint
-import io.github.jeffshee.visualizer.painters.Painter
-import io.github.jeffshee.visualizer.utils.VisualizerHelper
+import de.lemke.audiovisualizer.pintores.Pintor
+import de.lemke.audiovisualizer.utils.VisualizerHelper
 
-class Beat(
-    vararg val painters: Painter,
-    //
+class Batida(
+    vararg val painters: Pintor,
     var startHz: Int = 60,
     var endHz: Int = 800,
-    //
     var pxR: Float = .5f,
     var pyR: Float = .5f,
-    //
     var radiusR: Float = 1f,
     var beatAmpR: Float = 1f,
-    var peak: Float = 200f
-) : Painter() {
+    var peak: Float = 200f,
+) : Pintor() {
 
     override var paint = Paint()
 

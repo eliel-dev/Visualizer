@@ -1,21 +1,19 @@
-package io.github.jeffshee.visualizer.painters.modificadores
+package de.lemke.audiovisualizer.pintores.modificador
 
 import android.animation.ValueAnimator
 import android.graphics.Canvas
 import android.graphics.Paint
-import io.github.jeffshee.visualizer.painters.Painter
-import io.github.jeffshee.visualizer.utils.VisualizerHelper
+import de.lemke.audiovisualizer.pintores.Pintor
+import de.lemke.audiovisualizer.utils.VisualizerHelper
 
 class Zoom(
-    vararg val painters: Painter,
-    //
+    vararg val painters: Pintor,
     var pxR: Float = .5f,
     var pyR: Float = .5f,
-    //
     var anim: ValueAnimator = ValueAnimator.ofFloat(.9f, 1.1f).apply {
         duration = 8000;repeatCount = ValueAnimator.INFINITE;repeatMode = ValueAnimator.REVERSE
-    }
-) : Painter() {
+    },
+) : Pintor() {
 
     override var paint = Paint()
 

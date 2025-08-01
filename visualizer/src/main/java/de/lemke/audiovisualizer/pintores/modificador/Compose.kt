@@ -1,11 +1,11 @@
-package io.github.jeffshee.visualizer.painters.modificadores
+package de.lemke.audiovisualizer.pintores.modificador
 
 import android.graphics.Canvas
 import android.graphics.Paint
-import io.github.jeffshee.visualizer.painters.Painter
-import io.github.jeffshee.visualizer.utils.VisualizerHelper
+import de.lemke.audiovisualizer.pintores.Pintor
+import de.lemke.audiovisualizer.utils.VisualizerHelper
 
-class Compose(vararg val painters: Painter) : Painter() {
+class Compose(vararg val painters: Pintor) : Pintor() {
     override var paint = Paint()
 
     override fun calc(helper: VisualizerHelper) {

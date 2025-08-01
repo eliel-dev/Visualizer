@@ -1,21 +1,21 @@
-package io.github.jeffshee.visualizer.painters.modificadores
+package de.lemke.audiovisualizer.pintores.modificador
 
 import android.animation.ValueAnimator
 import android.graphics.Canvas
 import android.graphics.Paint
-import io.github.jeffshee.visualizer.painters.Painter
-import io.github.jeffshee.visualizer.utils.VisualizerHelper
+import de.lemke.audiovisualizer.pintores.Pintor
+import de.lemke.audiovisualizer.pintores.Pintor.Companion.Direcao.Cima
+import de.lemke.audiovisualizer.utils.VisualizerHelper
 
 class Shake(
-    vararg val painters: Painter,
-    //
+    vararg val painters: Pintor,
     var animX: ValueAnimator = ValueAnimator.ofFloat(0f, .01f, 0f, -.01f, 0f).apply {
         duration = 16000;repeatCount = ValueAnimator.INFINITE
     },
     var animY: ValueAnimator = ValueAnimator.ofFloat(0f, .01f, 0f, -.01f, 0f).apply {
         duration = 8000;repeatCount = ValueAnimator.INFINITE
     }
-) : Painter() {
+) : Pintor() {
 
     override var paint = Paint()
 
@@ -33,7 +33,7 @@ class Shake(
 
     override fun draw(canvas: Canvas, helper: VisualizerHelper) {
         canvas.save()
-        drawHelper(canvas, "a", animX.animatedValue as Float, animY.animatedValue as Float) {
+        drawHelper(canvas, Cima, animX.animatedValue as Float, animY.animatedValue as Float) {
             painters.forEach { painter ->
                 painter.paint.apply { colorFilter = paint.colorFilter;xfermode = paint.xfermode }
                 painter.draw(canvas, helper)
