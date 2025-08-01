@@ -1,60 +1,61 @@
-# Technology Stack
+# Stack Tecnológico
 
-## Build System
-- **Gradle** with Android Gradle Plugin 8.11.1
-- **Kotlin** 1.6.21 as primary language
-- Multi-module Android project structure
+## Sistema de Build
+- **Gradle**: Kotlin DSL (build.gradle.kts)
+- **Android Gradle Plugin**: 8.9.1
+- **Kotlin**: 2.1.0
 
-## Platform & SDK
-- **Android SDK**: Compile SDK 28, Min SDK 15, Target SDK 28
-- **Support Libraries**: Android Support Library 28.0.0
-- **Testing**: JUnit 4.12, Espresso 3.0.2
+## Plataforma e Compatibilidade
+- **Plataforma Alvo**: Android
+- **SDK Mínimo**: 26 (Android 8.0)
+- **SDK Alvo**: 36
+- **SDK de Compilação**: 36
+- **Versão Java**: 17
 
-## Key Dependencies
-- **Kotlin Standard Library**: kotlin-stdlib-jdk7
-- **Apache Commons Math**: commons-math3 3.6.1 (for mathematical operations)
-- **Android Support**: AppCompat, ConstraintLayout
+## Dependências Principais
+- **AndroidX AppCompat**: 1.7.0
+- **Apache Commons Math3**: 3.6.1 (para operações matemáticas)
+- **View Binding**: Habilitado para ambos os módulos
 
-## Common Commands
+## Estrutura do Projeto
+- Projeto Android multi-módulo
+- **app**: Módulo da aplicação demo
+- **visualizer**: Módulo da biblioteca principal
 
-### Build Commands
+## Configuração de Build
+- **Estilo de Código Kotlin**: Oficial
+- **AndroidX**: Habilitado
+- **Classe R Não-transitiva**: Habilitada para reduzir tamanho do APK
+- **ProGuard**: Habilitado para builds de release com nível completo de símbolos
+
+## Comandos Comuns
+
+### Build
 ```bash
-# Clean build
+# Build limpo
 ./gradlew clean
 
-# Build debug APK
+# Build debug
 ./gradlew assembleDebug
 
-# Build release APK
+# Build release
 ./gradlew assembleRelease
 
-# Build all modules
-./gradlew build
+# Build da biblioteca
+./gradlew :visualizer:build
 ```
 
-### Testing Commands
+### Testes e Análise
 ```bash
-# Run unit tests
+# Executar testes
 ./gradlew test
 
-# Run instrumented tests
-./gradlew connectedAndroidTest
-
-# Run tests for specific module
-./gradlew :app:test
-./gradlew :visualizer:test
-```
-
-### Development Commands
-```bash
-# Install debug APK
-./gradlew installDebug
-
-# Generate lint report
+# Gerar relatório de lint
 ./gradlew lint
 ```
 
-## Code Style
-- **Language**: Kotlin preferred over Java
-- **Extensions**: Uses Kotlin Android Extensions for view binding
-- **Namespace**: Explicit namespace declarations in build.gradle files
+## Notas de Desenvolvimento
+- Use ViewBinding para componentes de UI
+- Siga o estilo oficial de código Kotlin
+- Otimize para performance - alvo de 50-60 fps
+- Considere uso de memória para dispositivos móveis

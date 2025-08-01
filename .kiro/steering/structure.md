@@ -1,41 +1,65 @@
-# Project Structure
+# Estrutura do Projeto
 
-## Multi-Module Architecture
-This is a multi-module Android project with two main modules:
-
-### Root Level
-- **build.gradle**: Top-level build configuration
-- **settings.gradle**: Module inclusion (`:app`, `:visualizer`)
-- **gradle/**: Gradle wrapper files
-- **YourCustomPainter.kt**: Example custom painter implementation
-
-### App Module (`app/`)
-- **Purpose**: Demo application showcasing the visualizer library
-- **Package**: `io.github.jeffshee.visualizerdemo`
-- **Type**: Android application module
-- **Dependencies**: Depends on `:visualizer` module
-
-### Visualizer Module (`visualizer/`)
-- **Purpose**: Reusable audio visualization library
-- **Package**: `io.github.jeffshee.visualizer`
-- **Type**: Android library module
-- **Dependencies**: Apache Commons Math for mathematical operations
-
-## Standard Android Structure
-Both modules follow standard Android project structure:
+## Nível Raiz
 ```
-src/
-├── main/
-│   ├── java/           # Kotlin/Java source code
-│   ├── res/            # Android resources
+├── app/                    # Módulo da aplicação demo
+├── visualizer/             # Módulo da biblioteca principal
+├── preview/                # GIFs de demonstração e mídia
+├── .gradle/                # Cache do Gradle
+├── .idea/                  # Configurações do IntelliJ/Android Studio
+├── gradle/                 # Wrapper do Gradle
+├── build.gradle.kts        # Configuração de build raiz
+├── settings.gradle.kts     # Configuração de módulos
+└── gradle.properties       # Configurações globais do Gradle
+```
+
+## Módulo App (`app/`)
+Aplicação demo que demonstra a biblioteca visualizador:
+```
+app/
+├── src/main/
+│   ├── java/de/lemke/audiovisualizerdemo/  # Código fonte do app demo
+│   ├── res/                                # Recursos Android
 │   └── AndroidManifest.xml
-├── test/               # Unit tests
-└── androidTest/        # Instrumented tests
+├── build.gradle.kts        # Configuração de build do módulo app
+└── proguard-rules.pro      # Configuração do ProGuard
 ```
 
-## Key Conventions
-- **Modules**: Use `:module` syntax for inter-module dependencies
-- **Namespaces**: Explicitly declared in build.gradle files
-- **Source**: Kotlin files in `src/main/java/` directory (legacy structure)
-- **Resources**: Standard Android resource organization in `res/`
-- **Custom Painters**: Implement custom visualization logic by extending painter interfaces
+## Biblioteca Visualizer (`visualizer/`)
+Módulo da biblioteca principal com arquitetura modular:
+```
+visualizer/
+├── src/main/java/de/lemke/audiovisualizer/
+│   ├── painters/           # Implementações de visualização
+│   │   ├── fft/           # Visualizações baseadas em FFT
+│   │   ├── waveform/      # Visualizações de forma de onda
+│   │   ├── misc/          # Efeitos diversos
+│   │   ├── modifier/      # Modificadores de efeito
+│   │   └── Painter.kt     # Interface base do painter
+│   ├── utils/             # Classes utilitárias
+│   │   ├── FrameManager.kt
+│   │   ├── Preset.kt
+│   │   └── VisualizerHelper.kt
+│   └── views/             # Componentes de view customizados
+│       └── VisualizerView.kt
+├── build.gradle.kts       # Configuração de build da biblioteca
+└── proguard-rules.pro     # Regras ProGuard da biblioteca
+```
+
+## Organização de Pacotes
+- **Pacote Base**: `de.lemke.audiovisualizer`
+- **Painters**: Componentes modulares de visualização organizados por tipo
+- **Utils**: Classes auxiliares para gerenciamento de frames e processamento de áudio
+- **Views**: Views Android customizadas para integração
+
+## Convenções de Nomenclatura
+- Seguir convenções padrão do Kotlin/Android
+- Usar nomes descritivos para classes painter (ex: `FftBar`, `FftCircle`)
+- Nomenclatura de parâmetros segue convenções específicas (ver README.md)
+- Parâmetros baseados em proporção usam sufixo `R` (ex: `xR`, `yR`, `wR`, `hR`)
+
+## Padrões de Arquitetura
+- **Padrão Painter**: Componentes modulares de visualização
+- **Arquitetura Baseada em View**: Views Android customizadas para integração fácil
+- **Classes Utilitárias**: Funções auxiliares centralizadas
+- **Separação de Responsabilidades**: Distinção clara entre app demo e biblioteca

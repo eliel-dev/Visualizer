@@ -1,40 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/background_dark"
-    tools:context=".MainActivity">
+    android:background="#000000">
 
-    <!-- Título da visualização -->
-    <TextView
-        android:id="@+id/visualizationTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Visualização Atual"
-        android:textSize="24sp"
-        android:textColor="@android:color/white"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"/>
+    <de.lemke.audiovisualizer.views.VisualizerView
+        android:id="@+id/visualizerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    <!-- Botão para alternar visualizações -->
-    <Button
-        android:id="@+id/switchVisualizationButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Alternar Visualização"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"/>
-
-    <!-- VisualizerView centralizado -->
-    <io.github.jeffshee.visualizer.views.VisualizerView
-        android:id="@+id/visual"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/visualizationTitle"
-        android:layout_above="@id/switchVisualizationButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"/>
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/previous"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <View
+            android:id="@+id/next"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
 </RelativeLayout>
