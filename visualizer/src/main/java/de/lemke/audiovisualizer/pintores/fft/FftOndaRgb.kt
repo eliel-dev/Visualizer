@@ -19,9 +19,9 @@ class FftOndaRgb(
     flags: Int = Paint.ANTI_ALIAS_FLAG,
     // Cores das três ondas (padrão: vermelho, verde, azul)
     var color: List<Int> = listOf(Color.RED, Color.GREEN, Color.BLUE),
-    startHz: Int = 0,           // Frequência inicial (Hz)
+    startHz: Int = 100,           // Frequência inicial (Hz)
     endHz: Int = 2000,          // Frequência final (Hz)
-    num: Int = 128,             // Número de pontos na onda
+    num: Int = 200,             // Número de pontos na onda
     interpolator: Companion.Interpolator = Companion.Interpolator.SPLINE,  // Interpolação spline para suavidade
     direcao: Companion.Direcao = Companion.Direcao.Cima,        // Direção da onda
     mirror: Boolean = false,    // Se deve espelhar os dados

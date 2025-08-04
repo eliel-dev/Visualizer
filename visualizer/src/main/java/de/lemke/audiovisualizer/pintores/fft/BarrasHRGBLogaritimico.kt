@@ -12,16 +12,17 @@ import kotlin.math.pow
  * Visualizador FFT com barras horizontais coloridas em RGB
  * Cria barras centralizadas com cores vibrantes do arco-íris
  */
-class BarrasHRGB(
+class BarrasHRGBLogaritimico(
     override var paint: Paint = Paint().apply { style = Paint.Style.FILL },
-    var startHz: Int = 200,                    // Frequência inicial
+    var startHz: Int = 0,                    // Frequência inicial
     var endHz: Int = 2000,                   // Frequência final
     var numberOfBars: Int = 24,              // Número de barras
     var barWidth: Float = 10f,               // Largura de cada barra
     var barMargin: Float = 50f,              // Espaçamento entre barras
-    var amplificationFactor: Float = 1.4f,   // Fator de amplificação da altura
+    var amplificationFactor: Float = 1f,   // Fator de amplificação da altura
     var smoothingFactor: Float = 0.2f,       // Fator de suavização exponencial
-    var interpolator: Companion.Interpolator = Companion.Interpolator.SPLINE, // Tipo de interpolação
+    var interpolationIntensity: Float = 1f,  // Parâmetro para controlar a intensidade do efeito de interpolação
+    var interpolator: Companion.Interpolator = Companion.Interpolator.LOGARITHMIC, // Tipo de interpolação
 ) : Pintor() {
 
     // Função de interpolação para suavizar dados FFT

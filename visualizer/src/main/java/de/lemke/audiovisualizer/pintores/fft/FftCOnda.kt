@@ -66,7 +66,7 @@ class FftCOnda(
         points.forEachIndexed { index, bar -> bar.update(fft[index].toFloat() * ampR) }
 
         // Interpola dados especificamente para visualizações circulares
-        psf = interpolateFftCircle(points, num, interpolator)
+        psf = interpoladorFftCircular(points, num, interpolator)
     }
 
     override fun draw(canvas: Canvas, helper: VisualizerHelper) {

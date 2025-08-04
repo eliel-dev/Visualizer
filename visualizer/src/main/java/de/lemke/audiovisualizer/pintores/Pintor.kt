@@ -4,6 +4,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import de.lemke.audiovisualizer.pintores.Pintor.Companion.Interpolator.LINEAR
 import de.lemke.audiovisualizer.pintores.Pintor.Companion.Interpolator.SPLINE
+import de.lemke.audiovisualizer.pintores.Pintor.Companion.Interpolator.LOGARITHMIC
 import de.lemke.audiovisualizer.pintores.Pintor.Companion.Direcao.Cima
 import de.lemke.audiovisualizer.pintores.Pintor.Companion.Direcao.Cima_Baixo
 import de.lemke.audiovisualizer.pintores.Pintor.Companion.Direcao.Baixo
@@ -25,8 +26,9 @@ abstract class Pintor {
 
         // Tipos de interpolação para suavizar dados FFT
         enum class Interpolator {
-            LINEAR,   // Interpolação linear
-            SPLINE    // Interpolação spline (mais suave)
+            LINEAR,     // Interpolação linear
+            SPLINE,     // Interpolação spline (mais suave)
+            LOGARITHMIC // Interpolação logarítmica (enfatiza frequências baixas)
         }
     }
 
@@ -71,7 +73,7 @@ abstract class Pintor {
      * `psf.value(x)`, onde `x` deve ser um valor Double de 0 a `num`
      */
     fun interpolateFft(
-        gravityModels: Array<GravityModel>, sliceNum: Int, interpolator: Interpolator,
+        gravityModels: Array<GravityModel>, sliceNum: Int, interpolator: Interpolator, logarithmicIntensity: Float = 1f,
     ): PolynomialSplineFunction {
         val nRaw = gravityModels.size
         val xRaw = DoubleArray(nRaw) { (it * sliceNum).toDouble() / (nRaw - 1) }
@@ -93,25 +95,27 @@ abstract class Pintor {
      *
      * @param gravityModels Array de modelos de gravidade
      * @param sliceNum Número de fatias/bandas
-     * @param interpolator Qual interpolador usar (LINEAR ou SPLINE)
+     * @param interpolador Qual interpolador usar (LINEAR ou SPLINE)
      *
      * @return uma `PolynomialSplineFunction` (psf). Para obter o valor, use
      * `psf.value(x)`, onde `x` deve ser um valor Double de 0 a `num`
      */
-    fun interpolateFftCircle(
-        gravityModels: Array<GravityModel>, sliceNum: Int, interpolator: Interpolator,
+    fun interpoladorFftCircular(
+        gravityModels: Array<GravityModel>, sliceNum: Int, interpolador: Interpolator, logarithmicIntensity: Float = 1f,
     ): PolynomialSplineFunction {
         val nRaw = gravityModels.size
         val xRaw = DoubleArray(nRaw) { ((it - 1) * sliceNum).toDouble() / (nRaw - 1 - 2) }
         val yRaw = DoubleArray(nRaw)
         gravityModels.forEachIndexed { index, bar -> yRaw[index] = bar.height.toDouble() }
-        val psf: PolynomialSplineFunction = when (interpolator) {
+        val psf: PolynomialSplineFunction = when (interpolador) {
             LINEAR -> linear.interpolate(xRaw, yRaw)
             SPLINE -> spline.interpolate(xRaw, yRaw)
             else -> linear.interpolate(xRaw, yRaw)
         }
         return psf
     }
+
+
 
     /**
      * Verifica se o áudio está silencioso o suficiente para pular o desenho

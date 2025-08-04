@@ -75,6 +75,7 @@ class MainActivity : AppCompatActivity() {
         val list = listOf(
             // Basic components
             BarrasHRGB(),
+            BarrasHRGBLogaritimico(),
             Compose(
                 Move(WfmAnalog(), yRelative = -.3f),
                 Move(FftBarra(), yRelative = -.1f),
