@@ -104,3 +104,4 @@ wear/release
 /local.properties
 local.properties
 keystore.properties
+.env
